@@ -1,0 +1,12 @@
+{
+  "name": "SoundExplorer",
+  "version": "0.0.0",
+  "authors": [
+    "Khiem Tong <tong.khiem@gmail.com>"
+  ],
+  "dependencies": {
+    "angular": "~1.2.18",
+    "jquery": "~2.1.1",
+    "socket.io": "~1.0.6"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "SoundExplorer",
+  "version": "0.0.0",
+  "description": "Explore soundcloud",
+  "author": "Khiem Tong",
+  "dependencies": {
+    "express": ">0.0.0",
+    "require": ">0.0.0",
+    "socket.io": "^1.0.6"
+  },
+  "devDependencies": {
+    "nodemon": ">0.0.0",
+    "node-inspector": ">0.0.0"
+  }
+}

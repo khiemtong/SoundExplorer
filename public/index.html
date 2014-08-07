@@ -1,0 +1,43 @@
+<html ng-app="soundExplorer">
+<head>
+<script src="/vendor/angular/angular.min.js"></script>
+<script src="/vendor/jquery/dist/jquery.min.js"></script>
+<script src="http://connect.soundcloud.com/sdk.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/searchController.js"></script>
+<script>
+
+	$(document).ready(function() {
+
+		SC.initialize({
+			client_id: 'ebbf3ff65dfc82e8188aa1ea90c85a7b'
+		});
+
+		/*var track_url = 'http://soundcloud.com/forss/flickermood';
+		SC.oEmbed(track_url, { auto_play: true }, function(oEmbed) {
+		  console.log('oEmbed response: ' + oEmbed);
+		});*/
+
+
+		SC.stream("/tracks/153440469", function(sound) {
+			console.log("Sound uri: " + sound.uri);
+			sound.play();
+		});
+
+		/*SC.get("/fox-amoore/tracks", {limit: 1}, function(tracks){
+  			console.log("Latest track: " + tracks[0].title);
+		});*/
+
+	});
+	
+</script>
+</head>
+
+<body>
+
+
+
+
+</body>
+
+</html>
