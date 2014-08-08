@@ -31,8 +31,10 @@ io.on('connection', function(socket) {
 
     console.log("currentTime " + currentTime + ", songPlayedtime " + songPlayedTime + ", playedTime " + playedTime + ", song duration " + currentTrack.duration);
     console.log("sending song " + currentTrackId + " to newly connected client");
-    socket.emit('new song', { 'trackId' : currentTrackId, 'position' : playedTime });
-    
+
+    if (playedTime < currentTrack.duration) {
+      socket.emit('new song', { 'trackId' : currentTrackId, 'position' : playedTime, 'title' : currentTrack.title });
+    }
   }
 
 });
@@ -52,7 +54,7 @@ app.put('/api/request', function(req, res, next) {
 
       console.log("Start playing trackId " + currentTrackId + " at " + currentTime);
 
-      io.sockets.emit('new song', { 'trackId' : trackId });
+      io.sockets.emit('new song', { 'trackId' : trackId, 'title' : track.title });
 
       res.end("success");
 });

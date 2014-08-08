@@ -23,6 +23,8 @@
 
 			console.log('play new track ' + track);
 
+			$("#message").text("Current playing: " + track.title);
+
 			SC.stream("/tracks/" + track.trackId, function(sound) {
 
 				if (currentSound) {
@@ -54,7 +56,9 @@
   			console.log("Latest track: " + tracks[0].title);
 		});*/
 
+
 	});
+
 
 	function getSongData() {
 
@@ -68,7 +72,11 @@
 				if (data) {
 
 					console.log(data);
-					useSong({ 'trackId' : trackId, 'duration' : data.duration });
+					useSong(
+						{ 'trackId' : trackId,
+							'duration' : data.duration,
+							'title' : data.title
+						});
 				}
 
 			}
@@ -90,14 +98,36 @@
 
 	}
 
+	function search() {
+		var query = $("#searchInput").val();
+		SC.get('/tracks', {q: query}, function(tracks) {
+
+			$("#songList").empty();
+			$.each(tracks, function(index, item) {
+
+					$("#songList").append(item.title + " " + item.user.username + " " + item.id + "<br />");
+
+			});
+			console.log(tracks);
+		})
+	}
+
 </script>
 </head>
 
 <body>
+Still working so for now, search and then use the returned song Ids to play a song.
 
+Enter song id: <input type="text" id="songInput" />
+<button id="_songSubmit" onclick="getSongData()">Play song</button>
 
-<input type="text" id="songInput" />
-<button id="_songSubmit" onclick="getSongData()">Submit song</button>
+<div id="message"></div>
+
+<br />
+<br />
+<input type="text" id="searchInput" />
+<button id="searchButton" onclick="search()">Search</button>
+<div id="songList"></div>
 
 </body>
 
