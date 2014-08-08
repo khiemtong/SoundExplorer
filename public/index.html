@@ -3,15 +3,17 @@
 <script src="/vendor/angular/angular.min.js"></script>
 <script src="/vendor/jquery/dist/jquery.min.js"></script>
 <script src="/vendor/socket.io-client/socket.io.js"></script>
-<script src="http://connect.soundcloud.com/sdk.js"></script>
+<script src="http://connect.soundcloud.com/sdk-2.0.0.js"></script>
 <script src="/js/app.js"></script>
 <script src="/js/searchController.js"></script>
 <script>
 
+	var scClientId = 'ebbf3ff65dfc82e8188aa1ea90c85a7b';
+
 	$(document).ready(function() {
 
 		SC.initialize({
-			client_id: 'ebbf3ff65dfc82e8188aa1ea90c85a7b'
+			client_id: scClientId
 		});
 
 		var socket = io.connect();
@@ -19,14 +21,21 @@
 
 		socket.on('new song', function(track) {
 
+			console.log('play new track ' + track);
 
 			SC.stream("/tracks/" + track.trackId, function(sound) {
 
-				currentSound.stop();
+				if (currentSound) {
+					currentSound.stop();
+				}
 
 				currentSound = sound;
-				console.log("Sound uri: " + sound.uri);
+
+				console.log("Sound uri: " + sound.uri + " at position " + track.position);
+				sound.seek(track.position);
+				console.log("Current playing position " + sound.getCurrentPosition());
 				sound.play();
+
 			});
 		});
 
@@ -47,13 +56,33 @@
 
 	});
 
-	function useSong() {
+	function getSongData() {
 
 		var trackId = $("#songInput").val();
-		var requestUrl = '/api/tracks/' + trackId;
+
 		$.ajax({
-				type: "GET",
+			type: "GET",
+			url: "http://api.soundcloud.com/tracks/" + trackId + ".json?client_id=" + scClientId,
+			success: function(data) {
+
+				if (data) {
+
+					console.log(data);
+					useSong({ 'trackId' : trackId, 'duration' : data.duration });
+				}
+
+			}
+		});
+	}
+
+	function useSong(song) {
+
+		var requestUrl = '/api/request/';
+		$.ajax({
+				type: "PUT",
 				url: requestUrl,
+				data: JSON.stringify(song),
+				contentType: "application/json; charset=utf-8",
 				success: function(msg) {
 					console.log(msg);
 				}
@@ -68,7 +97,7 @@
 
 
 <input type="text" id="songInput" />
-<button id="_songSubmit" onclick="useSong()">Submit song</button>
+<button id="_songSubmit" onclick="getSongData()">Submit song</button>
 
 </body>
 

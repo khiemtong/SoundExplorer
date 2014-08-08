@@ -7,7 +7,10 @@
     "express": ">0.0.0",
     "require": ">0.0.0",
     "socket.io": "^1.0.6",
-    "body-parser": "^1.6.2"
+    "body-parser": "^1.6.2",
+    "config": "^1.0.2",
+    "node-config": "0.0.2",
+    "soundclouder": "^0.8.0"
   },
   "devDependencies": {
     "nodemon": ">0.0.0",
