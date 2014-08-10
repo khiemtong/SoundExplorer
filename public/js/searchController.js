@@ -13,7 +13,6 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 	// 	}
 	// });
 
-
 	SocketIoService.on('new song', function(track) {
 
 		console.log('play new track ' + track);
@@ -32,10 +31,9 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 
 			currentSound = sound;
 
-			console.log("Sound uri: " + sound.uri + " at position " + track.position);
+			console.log("Track uri " + track.uri + " at position " + track.position);
 			sound.seek(track.position);
-			console.log("Current playing position " + sound.getCurrentPosition());
-			$scope.currentlyPlaying = sound.title;
+			$scope.currentlyPlaying = track.title;
 			sound.play();
 
 			// positionTimer = setInterval(function() {
@@ -64,7 +62,9 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 	};
 
 	$scope.play = function(trackId) {
-		SoundCloudService.playSong(tracksHash[trackId]);
+		var toPlay = tracksHash[trackId];
+		$scope.currentlyPlaying = toPlay.title;
+		SoundCloudService.playSong(toPlay);
 	};
 
 }]);

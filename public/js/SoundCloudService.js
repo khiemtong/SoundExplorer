@@ -8,7 +8,7 @@ app.factory('SoundCloudService', ['$http', '$q', function($http, $q) {
     playSong: function(track) {
 
       var promise = $http.put('/api/request/', JSON.stringify(track)).then(function(res) {
-        console.log(res);
+        return res.data;
       });
 
     },

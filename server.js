@@ -31,11 +31,12 @@ io.on('connection', function(socket) {
     console.log("sending song " + currentTrackId + " to newly connected client");
 
     if (playedTime < currentTrack.duration) {
+
+      currentTrack.position = playedTime;
       socket.emit('new song', currentTrack);
       //res.json(currentTrack);
     }
   }
-
 
 });
 
@@ -56,6 +57,7 @@ app.get('/api/current', function(req, res, next) {
 
     if (playedTime < currentTrack.duration) {
       //socket.emit('new song', { 'trackId' : currentTrackId, 'position' : playedTime, 'title' : currentTrack.title });
+      currentTrack.position = playedTime;
       res.json(currentTrack);
     }
   }
