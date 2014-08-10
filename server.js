@@ -44,7 +44,7 @@ app.use(bodyParser.json());
 app.put('/api/request', function(req, res, next) {
 
       var track = req.body;
-      var trackId = req.body.trackId;
+      var trackId = req.body.id;
       var currentTime = (new Date()).getTime();
 
       currentTrackId = trackId;
@@ -54,7 +54,7 @@ app.put('/api/request', function(req, res, next) {
 
       console.log("Start playing trackId " + currentTrackId + " at " + currentTime);
 
-      io.sockets.emit('new song', { 'trackId' : trackId, 'title' : track.title });
+      io.sockets.emit('new song', track);
 
       res.end("success");
 });
