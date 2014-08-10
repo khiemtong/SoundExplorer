@@ -26,6 +26,14 @@ app.factory('SoundCloudService', ['$http', '$q', function($http, $q) {
 
       return $q.all(promise);
 
+    },
+
+    getCurrent: function() {
+      var promise = $http.get('/api/current').then(function(res) {
+        return res.data;
+      });
+
+      return promise;
     }
 
   };

@@ -21,7 +21,29 @@ var io = socketio.listen(server);
 io.on('connection', function(socket) {
 
   console.log('client connected');
-  socket.broadcast.emit('server ready', { 'message' : 'ok' });
+  if (currentTrackId) {
+
+    var currentTime = (new Date()).getTime();
+    var songPlayedTime = songPlayTime[currentTrackId];
+    var playedTime = currentTime - songPlayedTime;
+
+    console.log("currentTime " + currentTime + ", songPlayedtime " + songPlayedTime + ", playedTime " + playedTime + ", song duration " + currentTrack.duration);
+    console.log("sending song " + currentTrackId + " to newly connected client");
+
+    if (playedTime < currentTrack.duration) {
+      socket.emit('new song', currentTrack);
+      //res.json(currentTrack);
+    }
+  }
+
+
+});
+
+app.use(bodyParser.json());
+
+app.get('/api/current', function(req, res, next) {
+
+//socket.broadcast.emit('server ready', { 'message' : 'ok' });
 
   if (currentTrackId) {
 
@@ -33,13 +55,12 @@ io.on('connection', function(socket) {
     console.log("sending song " + currentTrackId + " to newly connected client");
 
     if (playedTime < currentTrack.duration) {
-      socket.emit('new song', { 'trackId' : currentTrackId, 'position' : playedTime, 'title' : currentTrack.title });
+      //socket.emit('new song', { 'trackId' : currentTrackId, 'position' : playedTime, 'title' : currentTrack.title });
+      res.json(currentTrack);
     }
   }
 
 });
-
-app.use(bodyParser.json());
 
 app.put('/api/request', function(req, res, next) {
 
@@ -56,5 +77,5 @@ app.put('/api/request', function(req, res, next) {
 
       io.sockets.emit('new song', track);
 
-      res.end("success");
+      res.json({ status: "success"});
 });
