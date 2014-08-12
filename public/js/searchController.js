@@ -36,13 +36,31 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 			$scope.currentlyPlaying = track.title;
 			sound.play();
 
-			// positionTimer = setInterval(function() {
-			// 	//console.log(sound.getCurrentPosition());
-			// 	$("#trackPosition").text(toMinuteSeconds(sound.getCurrentPosition()));
-			// }, 100);
+			positionTimer = setInterval(function() {
+				//console.log(sound.getCurrentPosition());
+				$scope.currentTrackTime = toMinuteSeconds(sound.getCurrentPosition());
+
+				// make sure changes are applied
+				if (!$scope.$$phase) {
+					$scope.$apply();
+				}
+				
+			}, 100);
 
 		});
 	});
+
+	function toMinuteSeconds(msTime) {
+		var totalSeconds = Math.floor(msTime/1000);
+		var totalMinutes = Math.floor(totalSeconds/60);
+		var seconds = totalSeconds % 60;
+
+		if (seconds < 10) {
+			seconds = "0" + seconds;
+		}
+
+		return totalMinutes + ":" + seconds;
+	}
 
 	$scope.searchFor = function() {
 

@@ -11,136 +11,39 @@
 <script src="/js/searchController.js"></script>
 <link rel="stylesheet" type="text/css" href="/vendor/normalize.css/normalize.css" />
 <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/dist/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="/css/main.css" />
 <script>
-
-/*	var scClientId = '895ead636a70123bfce41e7cfd07a914';
-	var foundTracks = {};
-
-	$(document).ready(function() {
-
-		SC.initialize({
-			client_id: scClientId
-		});
-
-		var socket = io.connect();
-		var currentSound;
-		var positionTimer;
-
-		socket.on('new song', function(track) {
-
-			console.log('play new track ' + track);
-
-			$("#message").text("Current playing: " + track.title);
-
-			SC.stream("/tracks/" + track.trackId, function(sound) {
-
-				if (currentSound) {
-					currentSound.stop();
-				}
-
-				if (positionTimer) {
-					clearInterval(positionTimer);
-				}
-
-				currentSound = sound;
-
-				console.log("Sound uri: " + sound.uri + " at position " + track.position);
-				sound.seek(track.position);
-				console.log("Current playing position " + sound.getCurrentPosition());
-				sound.play();
-
-				positionTimer = setInterval(function() {
-					//console.log(sound.getCurrentPosition());
-					$("#trackPosition").text(toMinuteSeconds(sound.getCurrentPosition()));
-				}, 100);
-
-			});
-		});
-
-	});
-
-	function toMinuteSeconds(msTime) {
-		var totalSeconds = Math.floor(msTime/1000);
-		var totalMinutes = Math.floor(totalSeconds/60);
-		var seconds = totalSeconds % 60;
-
-		if (seconds < 10) {
-			seconds = "0" + seconds;
-		}
-
-		return totalMinutes + ":" + seconds;
-	}
-
-
-	function playTrack(trackId) {
-
-		var toPlay = foundTracks[trackId];
-		if (toPlay) {
-			useSong({
-				'trackId' : toPlay.id,
-				'duration' : toPlay.duration,
-				'title' : toPlay.title
-			});
-		}
-	}
-
-	function useSong(song) {
-
-		var requestUrl = '/api/request/';
-		$.ajax({
-				type: "PUT",
-				url: requestUrl,
-				data: JSON.stringify(song),
-				contentType: "application/json; charset=utf-8",
-				success: function(msg) {
-					console.log(msg);
-				}
-		});
-
-	}
-
-	function search() {
-		var query = $("#searchInput").val();
-		SC.get('/tracks', {q: query}, function(tracks) {
-
-			$("#songList").empty();
-			foundTracks = {};
-
-			$.each(tracks, function(index, item) {
-					foundTracks[item.id] = item;
-					$("#songList").append('<a href=\"#\" onclick=\"playTrack(' + item.id + ')\">' + item.title + ' ' + item.user.username + '</a><br />');
-			});
-			console.log(tracks);
-		})
-	}
-*/
 </script>
 </head>
 
 <body ng-controller="searchController">
 
+<div class="page-header">
+  <h1>Jamz Up! <small>music up</small></h1>
+</div>
 <div class="panel panel-default">
 
-	<div class="panel-heading"><h1>Tong Jamz</h1></div>
-	<div class="panel-body">
-
-
-		<div id="message">{{currentlyPlaying}}</div>
+	<div class="panel-heading">
+		<h5>Currently Playing: {{currentlyPlaying}} {{currentTrackTime}}</h5>
 		<div id="trackPosition"></div>
 
 		<div class="input-group">
-			<input type="text" class="form-control" id="searchInput" placeholder="Enter song title or artist" ng-model="scModel.searchQuery"/>
-			<button id="searchButton" ng-click="searchFor()" class="btn btn-primary">Search</button>
+			<input type="text" id="searchInput" class="form-control" placeholder="Enter song title or artist" ng-model="scModel.searchQuery"/>
+			<span class="input-group-btn">
+				<button id="searchButton" ng-click="searchFor()" class="btn btn-primary">Search</button>
+			</span>
 		</div>
 
+	</div>
+	<div class="panel-body">
 
 		<ul class="list-group">
 			<li ng-repeat="track in scModel.tracks" class="list-group-item">
 				<a href="#" ng-click="play(track.id)">{{track.title}} {{track.user.username}}</a>
 			</li>
 		</ul>
+
 	</div>
 </div>
-</body>
 
 </html>
