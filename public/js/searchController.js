@@ -13,6 +13,12 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 		}
 	});
 
+	SocketIoService.on('stop current', function() {
+		if (currentSound) {
+			currentSound.stop();
+		}
+	});
+
 	SocketIoService.on('new song', function(track) {
 
 		console.log('play new track ' + track);
@@ -39,7 +45,7 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 
 			positionTimer = setInterval(function() {
 				//console.log(sound.getCurrentPosition());
-				$scope.currentTrackTime = $scope.toMinuteSeconds(sound.getCurrentPosition());
+				$scope.currentTrackTime = $scope.toMinuteSeconds(sound.getCurrentPosition()) + "/" + $scope.totalTimeForCurrent;
 
 				// make sure changes are applied
 				if (!$scope.$$phase) {
@@ -87,7 +93,21 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 
 	$scope.play = function(trackId) {
 		var toPlay = tracksHash[trackId];
-		SoundCloudService.playSong(toPlay);
+		SoundCloudService.playSong(toPlay).then(function(res) {
+			console.log(res);
+		});
+	};
+
+	$scope.skip = function() {
+		SoundCloudService.skipCurrent().then(function(res) {
+			console.log(res);
+		});
+
+		// do we really need a digest cycle to resolve a promise?
+		if (!$scope.$$phase) {
+			$scope.$apply();
+		}
+
 	};
 
 }]);

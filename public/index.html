@@ -29,8 +29,8 @@
 
       <div class="panel panel-default">
       	<div class="panel-heading">
-      		<h5>Currently Playing</h5>
-          <h4>{{currentlyPlaying}} {{currentTrackTime}} / {{totalTimeForCurrent}}</h4>
+      		<h5>Currently Playing <small><a href="#" ng-click="skip()">skip current</a></small></h5> 
+          <h4>{{currentlyPlaying}} {{currentTrackTime}}</h4>
 
       		<div class="input-group">
       			<input type="text" id="searchInput" class="form-control" placeholder="Enter song title or artist" ng-model="scModel.searchQuery"/>
@@ -44,8 +44,9 @@
       		<div class="list-group">
       			<a href="#" ng-repeat="track in scModel.tracks" class="list-group-item" ng-click="play(track.id)">
               <div class="media">
-                <span class="pull-left">
-                  <img src="{{track.artwork_url}}" class="media-object img-rounded" alt="{{track.title}}" ng-hide="!track.artwork_url">
+                <span class="pull-left" ng-switch="track.artwork_url != null">
+                  <img src="{{track.artwork_url}}" class="media-object img-rounded" alt="{{track.title}}" ng-switch-when="true" />
+                  <img src="" ng-switch-when="false" />
                 </span>
                 <div class="media-body">
                     <h4 class="media-heading">{{track.user.username}}</h4>

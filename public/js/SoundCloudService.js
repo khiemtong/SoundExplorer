@@ -11,6 +11,8 @@ app.factory('SoundCloudService', ['$http', '$q', function($http, $q) {
         return res.data;
       });
 
+      return promise;
+      
     },
 
     searchFor: function(query) {
@@ -42,7 +44,16 @@ app.factory('SoundCloudService', ['$http', '$q', function($http, $q) {
       });
 
       return promise;
+    },
+
+    skipCurrent: function() {
+      var promise = $http.get('/api/skip').then(function(res) {
+        return res.data;
+      });
+
+      return promise;
     }
+
 
   };
 

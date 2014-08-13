@@ -70,6 +70,26 @@ app.get('/api/queue', function(req, res, next) {
   res.json(songQueue);
 });
 
+app.get('/api/skip', function(req, res, next) {
+
+  currentTrackId = null;
+  currentTrack = null;
+
+  if (songQueue.length > 0) {
+
+    console.log("Playing next track that's enqueued");
+    playNextTrack();
+
+    res.json({status: 'skipped to next song'});
+
+  } else {
+
+    // stop current track
+    io.sockets.emit('stop current', {});
+    res.json({status: 'stopping current song, none to move to'});
+  }
+});
+
 app.put('/api/request', function(req, res, next) {
 
       var track = req.body;
@@ -117,7 +137,7 @@ function playNextTrack() {
     currentTrack = null;
 
     if (songQueue.length > 0) {
-      console.log("No more songs enqueued");
+      console.log("Playing next enqueued track");
       playNextTrack();
     }
 
