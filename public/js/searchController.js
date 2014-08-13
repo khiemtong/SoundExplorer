@@ -44,10 +44,14 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 				if (!$scope.$$phase) {
 					$scope.$apply();
 				}
-				
+
 			}, 100);
 
 		});
+	});
+
+	SocketIoService.on('update queue', function(queue) {
+		console.log(queue);
 	});
 
 	function toMinuteSeconds(msTime) {
