@@ -119,7 +119,7 @@ app.put('/api/request', function(req, res, next) {
 
 function playNextTrack() {
 
-  var nextTrack = songQueue.pop();
+  var nextTrack = songQueue.shift();
   io.sockets.emit('update queue', songQueue);
 
   // then play
