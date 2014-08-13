@@ -1,17 +1,23 @@
 app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudService', function($scope, SocketIoService, SoundCloudService) {
 
 	$scope.scModel = {};
+	$scope.scModel.playlist = [];
 	var tracksHash = {};
 
 	var currentSound;
 	var positionTimer;
 
-	// SoundCloudService.getCurrent().then(function(current) {
-	// 	if (current) {
-	// 		tracksHash[current.id] = current;
-	// 		$scope.play(current.id);
-	// 	}
-	// });
+	SoundCloudService.getQueue().then(function(queue) {
+		if (queue) {
+			$scope.scModel.playlist = queue;
+		}
+	});
+
+	SocketIoService.on('stop current', function() {
+		if (currentSound) {
+			currentSound.stop();
+		}
+	});
 
 	SocketIoService.on('new song', function(track) {
 
@@ -34,23 +40,29 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 			console.log("Track uri " + track.uri + " at position " + track.position);
 			sound.seek(track.position);
 			$scope.currentlyPlaying = track.title;
+			$scope.totalTimeForCurrent = $scope.toMinuteSeconds(track.duration);
 			sound.play();
 
 			positionTimer = setInterval(function() {
 				//console.log(sound.getCurrentPosition());
-				$scope.currentTrackTime = toMinuteSeconds(sound.getCurrentPosition());
+				$scope.currentTrackTime = $scope.toMinuteSeconds(sound.getCurrentPosition()) + "/" + $scope.totalTimeForCurrent;
 
 				// make sure changes are applied
 				if (!$scope.$$phase) {
 					$scope.$apply();
 				}
-				
+
 			}, 100);
 
 		});
 	});
 
-	function toMinuteSeconds(msTime) {
+	SocketIoService.on('update queue', function(queue) {
+		console.log(queue);
+		$scope.scModel.playlist = queue;
+	});
+
+	$scope.toMinuteSeconds = function toMinuteSeconds(msTime) {
 		var totalSeconds = Math.floor(msTime/1000);
 		var totalMinutes = Math.floor(totalSeconds/60);
 		var seconds = totalSeconds % 60;
@@ -60,7 +72,7 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 		}
 
 		return totalMinutes + ":" + seconds;
-	}
+	};
 
 	$scope.searchFor = function() {
 
@@ -81,8 +93,21 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 
 	$scope.play = function(trackId) {
 		var toPlay = tracksHash[trackId];
-		$scope.currentlyPlaying = toPlay.title;
-		SoundCloudService.playSong(toPlay);
+		SoundCloudService.playSong(toPlay).then(function(res) {
+			console.log(res);
+		});
+	};
+
+	$scope.skip = function() {
+		SoundCloudService.skipCurrent().then(function(res) {
+			console.log(res);
+		});
+
+		// do we really need a digest cycle to resolve a promise?
+		if (!$scope.$$phase) {
+			$scope.$apply();
+		}
+
 	};
 
 }]);
