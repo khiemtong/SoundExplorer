@@ -34,6 +34,14 @@ app.factory('SoundCloudService', ['$http', '$q', function($http, $q) {
       });
 
       return promise;
+    },
+
+    getQueue: function() {
+      var promise = $http.get('/api/queue').then(function(res) {
+        return res.data;
+      });
+
+      return promise;
     }
 
   };

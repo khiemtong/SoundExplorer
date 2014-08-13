@@ -100,6 +100,8 @@ app.put('/api/request', function(req, res, next) {
 function playNextTrack() {
 
   var nextTrack = songQueue.pop();
+  io.sockets.emit('update queue', songQueue);
+
   // then play
   clearTimeout(songEndTimer);
   var currentTime = (new Date()).getTime();
@@ -114,7 +116,11 @@ function playNextTrack() {
     currentTrackId = null;
     currentTrack = null;
 
-    playNextTrack();
+    if (songQueue.length > 0) {
+      console.log("No more songs enqueued");
+      playNextTrack();
+    }
+
   }, nextTrack.duration);
 
   console.log("Start playing trackId " + currentTrackId + " at " + currentTime);
