@@ -5,6 +5,7 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 	var tracksHash = {};
 
 	var currentSound;
+	var currentVolume = 0;
 	var positionTimer;
 
 	SoundCloudService.getQueue().then(function(queue) {
@@ -36,6 +37,7 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 			}
 
 			currentSound = sound;
+			currentVolume = sound.getVolume();
 
 			console.log("Track uri " + track.uri + " at position " + track.position);
 			sound.seek(track.position);
@@ -96,6 +98,13 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 		SoundCloudService.playSong(toPlay).then(function(res) {
 			console.log(res);
 		});
+	};
+
+	$scope.mute = function() {
+		if (currentSound) {
+			var volume = currentSound.getVolume();
+			currentSound.setVolume(volume === 0 ? currentVolume : 0);
+		}
 	};
 
 	$scope.skip = function() {
