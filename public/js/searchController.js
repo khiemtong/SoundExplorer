@@ -2,11 +2,13 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 
 	$scope.scModel = {};
 	$scope.scModel.playlist = [];
+	$scope.muteState = "Mute";
 	var tracksHash = {};
 
 	var currentSound;
 	var currentVolume = 0;
 	var positionTimer;
+
 
 	SoundCloudService.getQueue().then(function(queue) {
 		if (queue) {
@@ -104,7 +106,16 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 		if (currentSound) {
 			var volume = currentSound.getVolume();
 			currentSound.setVolume(volume === 0 ? currentVolume : 0);
+			$scope.muteState = volume === 0 ? "Mute" : "Unmute";
 		}
+	};
+
+	$scope.isMuted = function() {
+		if (!currentSound) {
+			return "";
+		}
+
+		//return currentSound.getVolume() === 0 ? "btn-danger" : "";
 	};
 
 	$scope.skip = function() {
