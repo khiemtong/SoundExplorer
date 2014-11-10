@@ -4,7 +4,7 @@ Simple exploration project using node to create a shared DJing application. Musi
 
 ## Configuration
 
-To run the application a configuration object with the relevant SoundCloud API credentials.
+To run the application a configuration object with the relevant SoundCloud API credentials needs to be supplied.
 
 ````JavaScript
   {

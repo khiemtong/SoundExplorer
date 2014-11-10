@@ -9,6 +9,7 @@
 <script src="/js/SocketIoService.js"></script>
 <script src="/js/SoundCloudService.js"></script>
 <script src="/js/searchController.js"></script>
+<script src="/js/directives.js"></script>
 <link rel="stylesheet" type="text/css" href="/vendor/normalize.css/normalize.css" />
 <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/dist/css/bootstrap.css" />
 <link rel="stylesheet" type="text/css" href="/css/main.css" />
@@ -33,7 +34,7 @@
           <h4>{{currentlyPlaying}} {{currentTrackTime}} <button class="btn" ng-click="mute()">Mute</button></h4>
 
       		<div class="input-group">
-      			<input type="text" id="searchInput" class="form-control" placeholder="Enter song title or artist" ng-model="scModel.searchQuery"/>
+      			<input type="text" id="searchInput" class="form-control" placeholder="Enter song title or artist" ng-model="scModel.searchQuery" ng-enter="searchFor()"/>
       			<span class="input-group-btn">
       				<button id="searchButton" ng-click="searchFor()" class="btn btn-primary">Search</button>
       			</span>
