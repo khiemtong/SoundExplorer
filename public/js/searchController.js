@@ -3,10 +3,14 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 	$scope.scModel = {};
 	$scope.scModel.playlist = [];
 	$scope.muteState = "Mute";
+	$scope.sliderConfig = { min: 0, max: 100, step: 5 };
+	//$scope.volume = 0;
+	$scope.amount = 0;
+	//$scope.amount = 0;
 	var tracksHash = {};
 
 	var currentSound;
-	var currentVolume = 0;
+	//var currentVolume = 0;
 	var positionTimer;
 
 
@@ -39,7 +43,8 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 			}
 
 			currentSound = sound;
-			currentVolume = sound.getVolume();
+			//currentVolume = sound.getVolume();
+			$scope.volume = sound.getVolume();
 
 			console.log("Track uri " + track.uri + " at position " + track.position);
 			sound.seek(track.position);
@@ -105,7 +110,7 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 	$scope.mute = function() {
 		if (currentSound) {
 			var volume = currentSound.getVolume();
-			currentSound.setVolume(volume === 0 ? currentVolume : 0);
+			currentSound.setVolume(volume === 0 ? $scope.volume : 0);
 			$scope.muteState = volume === 0 ? "Mute" : "Unmute";
 		}
 	};
