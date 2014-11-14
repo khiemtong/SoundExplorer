@@ -21,4 +21,4 @@ To run the application a configuration object with the relevant SoundCloud API c
 
 ## Live Demo
 
-Check out the live demo at http://www.jamzup.com
+Check out the live demo at http://jamzup.com
