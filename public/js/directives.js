@@ -32,6 +32,7 @@ app.directive("slider", function() {
       elem.slider({
         range: false,
         min: scope.config.min,
+        value: scope.config.currentVal,
         max: scope.config.max,
         step: scope.config.step,
         slide: function(event, ui) {
