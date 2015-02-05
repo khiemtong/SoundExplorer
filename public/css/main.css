@@ -5,3 +5,7 @@ body {
 .glyphicon-music {
   font-size: 2em;
 }
+
+.volume-control {
+  display: block;
+}

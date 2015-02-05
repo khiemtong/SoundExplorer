@@ -1,12 +1,30 @@
 var express = require('express');
 var socketio = require('socket.io');
-var scApi = require('soundclouder');
+//var scApi = require('soundclouder');
 var config = require('config');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var SoundCloudStrategy = require('passport-soundcloud').Strategy;
 var app = express();
 
+
+
+  //app.use(express.logger());
+  //app.use(express.cookieParser());
+app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
 
+// session setup
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
 
 var currentTrackId;
 var currentTrack;
@@ -15,9 +33,8 @@ var songQueue = [];
 var songEndTimer;
 
 var server = app.listen(3000);
-//var scConfig = config.get('SoundCloud');
+var scConfig = config.get('SoundCloud');
 //scApi.init(scConfig.clientId, scConfig.clientSecret, scConfig.redirectUrl);
-
 
 var io = socketio.listen(server);
 io.on('connection', function(socket) {
@@ -42,7 +59,45 @@ io.on('connection', function(socket) {
 
 });
 
-app.use(bodyParser.json());
+passport.use(new SoundCloudStrategy({
+                                      clientID: scConfig.clientId,
+                                      clientSecret: scConfig.clientSecret,
+                                      callbackURL: scConfig.redirectUrl
+                                    }, function(accessToken, refreshToken, profile, done) {
+
+                                      process.nextTick(function() {
+                                        return done(null, profile);
+                                      });
+
+                                    }
+));
+
+app.get('/auth/soundcloud',
+  passport.authenticate('soundcloud'),
+  function(req, res){
+    // The request will be redirected to SoundCloud for authentication, so this
+    // function will not be called.
+  });
+
+app.get('/auth/soundcloud/callback',
+  passport.authenticate('soundcloud', { failureRedirect: '/login.html' }),
+  function(req, res) {
+    res.redirect('/');
+  }
+);
+
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+
+  res.redirect('/login.html');
+}
+
+app.get('/login', function(req, res){
+  res.render('login', { user: req.user });
+});
 
 app.get('/api/current', function(req, res, next) {
 
