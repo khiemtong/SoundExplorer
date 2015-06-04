@@ -1,6 +1,7 @@
 app.factory('SoundCloudService', ['$http', '$q', function($http, $q) {
 
-  var scClientId = '895ead636a70123bfce41e7cfd07a914';
+  // configurable client id here
+  var scClientId = '';
   SC.initialize({ client_id: scClientId });
 
   var scService = {
