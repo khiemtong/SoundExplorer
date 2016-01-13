@@ -9,8 +9,8 @@ var app = express();
 
 
 
-  //app.use(express.logger());
-  //app.use(express.cookieParser());
+//app.use(express.logger());
+//app.use(express.cookieParser());
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -34,7 +34,8 @@ var songEndTimer;
 
 var server = app.listen(3000);
 var scConfig = config.get('SoundCloud');
-//scApi.init(scConfig.clientId, scConfig.clientSecret, scConfig.redirectUrl);
+
+scApi.init(scConfig.clientId, scConfig.clientSecret, scConfig.redirectUrl);
 
 var io = socketio.listen(server);
 io.on('connection', function(socket) {
