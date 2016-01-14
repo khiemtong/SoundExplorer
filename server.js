@@ -1,6 +1,6 @@
 var express = require('express');
 var socketio = require('socket.io');
-//var scApi = require('soundclouder');
+var scApi = require('soundclouder');
 var config = require('config');
 var bodyParser = require('body-parser');
 var passport = require('passport');
@@ -32,9 +32,12 @@ var songPlayTime = {};
 var songQueue = [];
 var songEndTimer;
 
+debugger;
+
 var server = app.listen(3000);
 var scConfig = config.get('SoundCloud');
 
+// TODO: Config must be initialized
 scApi.init(scConfig.clientId, scConfig.clientSecret, scConfig.redirectUrl);
 
 var io = socketio.listen(server);
