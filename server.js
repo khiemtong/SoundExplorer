@@ -32,13 +32,14 @@ var songPlayTime = {};
 var songQueue = [];
 var songEndTimer;
 
-debugger;
-
 var server = app.listen(3000);
+
+//console.log("server started on port 3000");
+
 var scConfig = config.get('SoundCloud');
 
 // TODO: Config must be initialized
-scApi.init(scConfig.clientId, scConfig.clientSecret, scConfig.redirectUrl);
+//scApi.init(scConfig.clientId, scConfig.clientSecret, scConfig.redirectUrl);
 
 var io = socketio.listen(server);
 io.on('connection', function(socket) {

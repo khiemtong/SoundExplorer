@@ -3,3 +3,4 @@ bower_components
 public/vendor
 config
 /.idea
+npm-debug.log
