@@ -123,7 +123,7 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 		if (currentSound) {
 			var volume = currentSound.getVolume();
 			currentSound.setVolume(volume === 0 ? $scope.volume : 0);
-			$scope.isMuted = volume === 0;
+			$scope.isMuted = currentSound.getVolume() === 0;
 		}
 	};
 

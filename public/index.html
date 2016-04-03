@@ -46,12 +46,14 @@ $(function() {
       		<h5>Currently Playing <small><a href="#" ng-click="skip()">skip current</a></small></h5>
           <h4>{{currentlyPlaying}} {{currentTrackTime}}</h4>
           <div class="form-inline">
+
             <label>Volume</label>
             <span slider config="sliderConfig" amount="amount" class="volume-control">
-            </span>            
-            <button class="btn" ng-click="mute()">
-              <span class="glyphicon glyphicon-volume-up" ng-show="!isMuted" ng-hide="isMuted"></span>
-              <span class="glyphicon glyphicon-volume-off" ng-show="isMuted" ng-hide="!isMuted"></span>
+            </span>
+    
+            <button class="btn mute-control" ng-click="mute()">
+              <span class="glyphicon glyphicon-volume-up" ng-show="isMuted" ng-hide="!isMuted"></span>
+              <span class="glyphicon glyphicon-volume-off" ng-show="!isMuted" ng-hide="isMuted"></span>
             </button>
           </div>
 

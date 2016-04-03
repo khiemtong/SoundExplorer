@@ -1,8 +1,5 @@
 app.factory('SoundCloudService', ['$http', '$q', function($http, $q) {
 
-  // TODO: Must pass config from config module here
-  // configurable client id here
-
   var scService = {
 
     init: function(scClientId) {

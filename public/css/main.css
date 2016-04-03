@@ -9,3 +9,8 @@ body {
 .volume-control {
   display: block;
 }
+
+.mute-control {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
