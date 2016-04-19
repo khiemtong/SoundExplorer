@@ -33,6 +33,6 @@ To run the application a configuration object with the relevant SoundCloud API c
 
 ## Setup
 
-npm install
-bower install
-npm start
+1. `npm install`
+2. `bower install`
+3. `npm start`
