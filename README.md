@@ -23,7 +23,7 @@ To run the application a configuration object with the relevant SoundCloud API c
 ```
 
 4. Fill in credentails
-5. In `js/searchController.js', set SoundCloud client id
+5. In `js/searchController.js`, set SoundCloud client id
 
 ```javascript
     // Initialize client id here
@@ -33,6 +33,6 @@ To run the application a configuration object with the relevant SoundCloud API c
 
 ## Setup
 
-1. `npm install`
-2. `bower install`
-3. `npm start`
+* `npm install`
+* `bower install`
+* `npm start`
