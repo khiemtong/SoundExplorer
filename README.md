@@ -9,7 +9,6 @@ To run the application a configuration object with the relevant SoundCloud API c
 1. Run `mkdir config`
 2. Run `vi config/default.json`
 3. Copy into file
-
 ````JavaScript
   {
     "SoundCloud" : {
@@ -21,7 +20,6 @@ To run the application a configuration object with the relevant SoundCloud API c
     }
   }
 ```
-
 4. Fill in credentails
 5. In `js/searchController.js`, set SoundCloud client id
 
