@@ -16,7 +16,7 @@ app.controller('searchController', ['$scope', 'SocketIoService', 'SoundCloudServ
 	var positionTimer;
 
 	// Initialize client id here
-	var scClientID = '';
+	var scClientID = 'd95c7acbda0e3ae45c1d6e0e1b086afd';
 	SoundCloudService.init(scClientID);
 
 	SoundCloudService.getQueue().then(function(queue) {

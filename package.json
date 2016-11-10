@@ -15,7 +15,5 @@
     "soundclouder": "^0.8.0"
   },
   "devDependencies": {
-    "nodemon": ">0.0.0",
-    "node-inspector": ">0.0.0"
   }
 }
