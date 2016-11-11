@@ -6,11 +6,11 @@
   ],
   "dependencies": {
     "angular": "~1.2.18",
-    "jquery": "~2.1.1",
-    "socket.io": "~1.0.6",
-    "socket.io-client": "~1.0.6",
     "bootstrap": "~3.2.0",
+    "jquery": "~2.1.1",
+    "jquery-ui": "~1.11.2",
     "normalize.css": "~3.0.1",
-    "jquery-ui": "~1.11.2"
+    "socket.io": "~1.0.6",
+    "socket.io-client": "~1.0.6"
   }
 }
